@@ -1,0 +1,81 @@
+// qrestray.rc - Resource script for QResTray
+#include "resource.h"
+#include <windows.h>
+#include <commctrl.h>
+
+LANGUAGE LANG_CHINESE_SIMPLIFIED, SUBLANG_DEFAULT
+
+/////////////////////////////////////////////////////////////////////////////
+// Icons - using system stock icon as placeholder; replace IDI_TRAY with a
+// real .ico file if desired. The RC compiler accepts missing icon files
+// only if a real file is present. Add a 16x16 + 32x32 .ico to qrestray/.
+IDI_TRAY    ICON    "qrestray.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+// String Table
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE       "QResTray"
+    IDS_TRAY_TOOLTIP    "QResTray - 屏幕分辨率切换器"
+END
+
+/////////////////////////////////////////////////////////////////////////////
+// IDD_MAIN - Main settings dialog
+IDD_MAIN DIALOGEX 0, 0, 380, 260
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "QResTray 设置"
+FONT 9, "Segoe UI", 400, 0, 0x86
+BEGIN
+    LTEXT           "配置文件列表:", -1, 7, 7, 60, 9
+    CONTROL         "", IDC_PROFILE_LIST, WC_LISTVIEW,
+                    LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS |
+                    WS_BORDER | WS_TABSTOP,
+                    7, 20, 290, 190
+    PUSHBUTTON      "新建(&N)", IDC_BTN_NEW,    307, 20,  66, 22
+    PUSHBUTTON      "编辑(&E)", IDC_BTN_EDIT,   307, 48,  66, 22
+    PUSHBUTTON      "删除(&D)", IDC_BTN_DELETE, 307, 76,  66, 22
+    PUSHBUTTON      "上移(&U)", IDC_BTN_UP,     307, 110, 66, 22
+    PUSHBUTTON      "下移(&W)", IDC_BTN_DOWN,   307, 138, 66, 22
+    AUTOCHECKBOX    "随 Windows 启动(&A)", IDC_CHK_AUTOSTART, 7, 218, 140, 12
+    DEFPUSHBUTTON   "关闭(&C)", IDC_BTN_CLOSE, 307, 230, 66, 22
+END
+
+/////////////////////////////////////////////////////////////////////////////
+// IDD_PROFILE - Profile edit dialog
+IDD_PROFILE DIALOGEX 0, 0, 300, 230
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "编辑配置文件"
+FONT 9, "Segoe UI", 400, 0, 0x86
+BEGIN
+    LTEXT           "名称(&N):", -1,               7,  10, 40, 9
+    EDITTEXT        IDC_EDIT_NAME,                        55,  8, 232, 14, ES_AUTOHSCROLL
+
+    GROUPBOX        "显示设置", -1,         7,  30, 286, 80
+
+    LTEXT           "分辨率:",    -1,          15,  46, 40,  9
+    COMBOBOX        IDC_COMBO_WIDTH,                       60,  44, 80, 120,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "x", -1,                             144,  46,  8,  9
+    COMBOBOX        IDC_COMBO_HEIGHT,                     154,  44, 80, 120,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "色深:",          -1,          15,  68, 40,  9
+    COMBOBOX        IDC_COMBO_DEPTH,                       60,  66, 80,  60,
+                    CBS_DROPDOWNLIST | WS_TABSTOP
+
+    LTEXT           "刷新率:",    -1,          15,  90, 40,  9
+    COMBOBOX        IDC_COMBO_FREQ,                        60,  88, 80, 120,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Hz",                    -1,          145,  90, 20,  9
+
+    GROUPBOX        "关联程序", -1,        7, 120, 286, 60
+    LTEXT           "路径:",          -1,          15, 137, 30,  9
+    EDITTEXT        IDC_EDIT_APPPATH,                      50, 135, 186, 14, ES_AUTOHSCROLL
+    PUSHBUTTON      "浏览...", IDC_BTN_BROWSE,    242, 134,  44, 16
+    AUTOCHECKBOX    "程序退出后还原分辨率(&R)",
+                    IDC_CHK_RESTORE, 15, 158, 200, 12
+
+    DEFPUSHBUTTON   "确定", IDC_BTN_OK,            180, 205, 50, 18
+    PUSHBUTTON      "取消", IDC_BTN_CANCEL,        240, 205, 50, 18
+END
